@@ -20,9 +20,14 @@ class WeatherTableViewCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
+
+    
+    /// Fill Cell with Data
+    ///
+    /// - Parameters:
+    ///   - modelTemp: temp model
+    ///   - tempUnit: Current temp unit i.e Kelvin or Celcius
     
     func fillData(modelTemp: TempModel, tempUnit:TempUnits){
         lblCity.text = modelTemp.city
@@ -33,5 +38,4 @@ class WeatherTableViewCell: UITableViewCell {
             lblTemp.text = "\(celcius)°C"
         }
     }
-
 }

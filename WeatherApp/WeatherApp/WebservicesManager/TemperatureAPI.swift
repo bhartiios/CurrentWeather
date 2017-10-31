@@ -1,5 +1,5 @@
 //
-//  TemperatureManager.swift
+//  TemperatureAPI.swift
 //  WeatherApp
 //
 //  Created by Bharti Sharma on 30/10/17.
@@ -8,15 +8,22 @@
 
 import Foundation
 
-protocol TemperatureManager: WebserviceCall {
+protocol TemperatureAPI: WebserviceCall {
     
 }
 
-extension TemperatureManager{
+extension TemperatureAPI{
     
-    func getTempOfAllCities(completionHandler: @escaping (_ jsonResponse:[TempModel]?, _ error: Error?)->Void){
+    
+    /// Api to get current weather of multiple cities using their id's. Id's can be get from openweatherapi page
+    ///
+    /// - Parameters:
+    ///   - arrCities: array constaining list of all cities id's
+    ///   - completionHandler: completion closure
+    
+    func getTempOfAllCities(arrCities:[String], completionHandler: @escaping (_ jsonResponse:[TempModel]?, _ error: Error?)->Void){
         
-        self.makeGETWebserviceCall(strURL: "https://api.openweathermap.org/data/2.5/group?id=4163971,2147714,2174003&appid=19e4379f7f24ccd74ea4a061bff08e64") { (response, error) in
+        self.makeGETWebserviceCall(strURL: "https://api.openweathermap.org/data/2.5/group?id=\(arrCities.joined(separator: ","))&appid=\(AppConstants.openWeatherKey)") { (response, error) in
             
             if let webError = error {
                 completionHandler(nil, webError)

@@ -15,6 +15,13 @@ protocol WebserviceCall {
 
 extension WebserviceCall{
     
+    
+    /// Get Webservice
+    ///
+    /// - Parameters:
+    ///   - strURL: url string
+    ///   - completionHandler: Completion closure
+    
     func makeGETWebserviceCall(strURL:String, completionHandler:@escaping (_ jsonResponse:Any?, _ error: Error?)->Void){
      
         Alamofire.request(strURL).responseJSON { response in
