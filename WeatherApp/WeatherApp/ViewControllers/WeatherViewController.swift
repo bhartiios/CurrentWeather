@@ -19,6 +19,7 @@ class WeatherViewController: UITableViewController, TemperatureAPI {
     @IBOutlet weak var btnKelvin: UIButton!
     @IBOutlet weak var btnCelcius: UIButton!
     
+    var selectedCityIndex = 0
     var arrTempCity:[TempModel] = []
     var currentTempUnit = TempUnits.Kelvin
     
@@ -52,6 +53,10 @@ class WeatherViewController: UITableViewController, TemperatureAPI {
         return cell
      }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        selectedCityIndex = indexPath.row
+    }
+    
     //MARK:- Custom Methods
     
     func setViewNavTitle(){
@@ -64,13 +69,14 @@ class WeatherViewController: UITableViewController, TemperatureAPI {
     func callWebserviceForTemp(){
         showLoader()
         self.getTempOfAllCities(arrCities: [AppConstants.sydneyId,AppConstants.melbourneId,AppConstants.brisbaneId]) { (arrResult, error) in
+            self.hideLoader()
             guard let arrResult = arrResult else{
                 return
             }
             self.arrTempCity = arrResult
             self.tableView.reloadData()
             self.viewTempConverter.isHidden = false
-            self.hideLoader()
+            
         }
     }
     
@@ -88,14 +94,18 @@ class WeatherViewController: UITableViewController, TemperatureAPI {
         }
         self.tableView.reloadData()
     }
-    /*
+    
      // MARK: - Navigation
      
      // In a storyboard-based application, you will often want to do a little preparation before navigation
      override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
      // Get the new view controller using segue.destinationViewController.
      // Pass the selected object to the new view controller.
+        if segue.identifier == "ShowWeatherDetail"{
+            if let vcDetail = segue.destination as? WeatherDetailViewController{
+                vcDetail.tempModel = arrTempCity[selectedCityIndex]
+                vcDetail.tempUnit = self.currentTempUnit
+            }
+        }
      }
-     */
-    
 }
