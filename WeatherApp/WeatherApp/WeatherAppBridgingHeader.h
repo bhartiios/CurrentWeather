@@ -9,5 +9,6 @@
 #ifndef WeatherAppBridgingHeader_h
 #define WeatherAppBridgingHeader_h
 
+#import "MBProgressHUD.h"
 
 #endif /* WeatherAppBridgingHeader_h */

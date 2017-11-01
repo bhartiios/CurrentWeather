@@ -7,13 +7,13 @@
 //
 
 import UIKit
-import NVActivityIndicatorView
+import MBProgressHUD
 
 enum TempUnits{
     case Kelvin, Celcius
 }
 
-class WeatherViewController: UITableViewController, TemperatureAPI, NVActivityIndicatorViewable {
+class WeatherViewController: UITableViewController, TemperatureAPI {
     
     @IBOutlet var viewTempConverter: UIView!
     @IBOutlet weak var btnKelvin: UIButton!
@@ -55,17 +55,22 @@ class WeatherViewController: UITableViewController, TemperatureAPI, NVActivityIn
     //MARK:- Custom Methods
     
     func setViewNavTitle(){
-        self.navigationController?.title = "Temperature"
+        self.navigationItem.title = "Temperature"
         self.tableView.tableFooterView = viewTempConverter
+        viewTempConverter.isHidden = true
+        btnKelvin.isSelected = true //By default temp is in Kelvin coming from webservice
     }
     
     func callWebserviceForTemp(){
+        showLoader()
         self.getTempOfAllCities(arrCities: [AppConstants.sydneyId,AppConstants.melbourneId,AppConstants.brisbaneId]) { (arrResult, error) in
             guard let arrResult = arrResult else{
                 return
             }
             self.arrTempCity = arrResult
             self.tableView.reloadData()
+            self.viewTempConverter.isHidden = false
+            self.hideLoader()
         }
     }
     
